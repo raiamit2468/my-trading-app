@@ -3,7 +3,7 @@ import google.generativeai as genai
 from PIL import Image
 
 # Yahan apni Google AI Studio ki Gemini API key daalein
-genai.configure(api_key="AQ.Ab8RN6IqbY-SDSGwV1J-7I6sn3gx5iCsB5pBBD3lb7dvyhfHfA")
+genai.configure(api_key="AQ.Ab8RN6I28P_8NmtEQe89_-1ZPlczjAhy2p8e3YDXS2_mJuv4uw")
 
 st.title("AI Trading Chart Analyzer")
 st.write("Upload chart screenshot for Buy/Sell signals")
