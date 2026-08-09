@@ -2,8 +2,12 @@ import streamlit as st
 import google.generativeai as genai
 from PIL import Image
 
-# Yahan apni Google AI Studio ki Gemini API key daalein
-genai.configure(api_key="AQ.Ab8RN6I28P_8NmtEQe89_-1ZPlczjAhy2p8e3YDXS2_mJuv4uw")
+# Streamlit Secrets se key automatic uthayega
+try:
+    api_key = st.secrets["GEMINI_API_KEY"]
+    genai.configure(api_key=api_key)
+except Exception as e:
+    st.error("API Key secrets me set nahi hai!")
 
 st.title("AI Trading Chart Analyzer")
 st.write("Upload chart screenshot for Buy/Sell signals")
@@ -15,17 +19,20 @@ if uploaded_file is not None:
     st.image(image, caption='Uploaded Chart', use_container_width=True)
     
     if st.button('Analyze Chart'):
-        model = genai.GenerativeModel('gemini-2.5-flash')
-        
-        prompt = """
-        You are an expert technical analyst. Analyze this chart image thoroughly and provide:
-        1. Current Trend & Patterns identified
-        2. Signal: BUY / SELL / WAIT
-        3. Entry Price, Target Price, and Stop Loss
-        4. Risk to Reward Ratio
-        Keep it clear and precise.
-        """
-        
-        response = model.generate_content([prompt, image])
-        st.subheader("Analysis & Signal:")
-        st.write(response.text)
+        try:
+            model = genai.GenerativeModel('gemini-2.5-flash')
+            
+            prompt = """
+            You are an expert technical analyst. Analyze this chart image thoroughly and provide:
+            1. Current Trend & Patterns identified
+            2. Signal: BUY / SELL / WAIT
+            3. Entry Price, Target Price, and Stop Loss
+            4. Risk to Reward Ratio
+            Keep it clear and precise.
+            """
+            
+            response = model.generate_content([prompt, image])
+            st.subheader("Analysis & Signal:")
+            st.write(response.text)
+        except Exception as e:
+            st.error(f"Error: {e}")
