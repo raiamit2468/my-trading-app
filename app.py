@@ -1,11 +1,11 @@
 import streamlit as st
-import google.generativeai as genai
+from google import genai
 from PIL import Image
 
-# Streamlit Secrets se key automatic uthayega
+# Streamlit Secrets se API key automatic padhega
 try:
     api_key = st.secrets["GEMINI_API_KEY"]
-    genai.configure(api_key=api_key)
+    client = genai.Client(api_key=api_key)
 except Exception as e:
     st.error("API Key secrets me set nahi hai!")
 
@@ -20,8 +20,6 @@ if uploaded_file is not None:
     
     if st.button('Analyze Chart'):
         try:
-            model = genai.GenerativeModel('gemini-2.5-flash')
-            
             prompt = """
             You are an expert technical analyst. Analyze this chart image thoroughly and provide:
             1. Current Trend & Patterns identified
@@ -31,7 +29,10 @@ if uploaded_file is not None:
             Keep it clear and precise.
             """
             
-            response = model.generate_content([prompt, image])
+            response = client.models.generate_content(
+                model='gemini-2.5-flash',
+                contents=[prompt, image]
+            )
             st.subheader("Analysis & Signal:")
             st.write(response.text)
         except Exception as e:
