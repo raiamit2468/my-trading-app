@@ -15,7 +15,7 @@ if uploaded_file is not None:
     st.image(image, caption='Uploaded Chart', use_container_width=True)
     
     if st.button('Analyze Chart'):
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-2.5-flash')
         
         prompt = """
         You are an expert technical analyst. Analyze this chart image thoroughly and provide:
