@@ -36,4 +36,5 @@ if uploaded_file is not None:
             st.subheader("Analysis & Signal:")
             st.write(response.text)
         except Exception as e:
-            st.error(f"Error: {e}")
+            
+st.exception(e)
